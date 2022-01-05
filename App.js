@@ -21,23 +21,27 @@ export default function App() {
     ]);
   };
 
+  const _handleDeleteItem = (idDeletedItem) => {
+    const newList = listGoal.filter((item) => {
+      return item.key !== idDeletedItem;
+    });
+    setListGoal(newList);
+  };
+
   return (
     <View style={styles.screen}>
       <GoalInput onAddGoal={addGoalHandler} />
-      {/* <ScrollView>
-        {listGoal.map((item) => {
-          return (
-            <View key={item.key} style={styles.listItem}>
-              <Text>{item.value}</Text>
-            </View>
-          );
-        })}
-      </ScrollView> */}
 
       <FlatList
         keyExtractor={(item, idex) => item.key}
         data={listGoal}
-        renderItem={(itemData) => <GoalItem itemData={itemData} />}
+        renderItem={(itemData) => (
+          <GoalItem
+            id={itemData.item.key}
+            onDelete={_handleDeleteItem}
+            itemData={itemData}
+          />
+        )}
       />
     </View>
   );
