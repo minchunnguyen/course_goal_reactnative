@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Button, Text } from "react-native";
 import GoalInput from "./components/GoalInput";
 import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const [listGoal, setListGoal] = useState([]);
-
+  const [isOpen, setIsOpen] = useState(false);
   const addGoalHandler = (goalTitle) => {
     // setListGoal(listGoal=>[...listGoal, {
     //   key: Math.random().toString(),
@@ -19,6 +19,7 @@ export default function App() {
         value: goalTitle,
       },
     ]);
+    setIsOpen(false);
   };
 
   const _handleDeleteItem = (idDeletedItem) => {
@@ -28,10 +29,14 @@ export default function App() {
     setListGoal(newList);
   };
 
+  const _handleCloseModel = (isOpen) =>{
+    setIsOpen(isOpen);
+  }
+
   return (
     <View style={styles.screen}>
-      <GoalInput onAddGoal={addGoalHandler} />
-
+      <GoalInput onAddGoal={addGoalHandler} visible={isOpen} onCloseModal={_handleCloseModel} />
+      <Button title="ADD NEW GOAL" onPress={() => _handleCloseModel(true)}></Button>
       <FlatList
         keyExtractor={(item, idex) => item.key}
         data={listGoal}
