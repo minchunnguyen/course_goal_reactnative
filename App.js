@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, FlatList, Button, Text } from "react-native";
 import GoalInput from "./components/GoalInput";
 import GoalItem from "./components/GoalItem";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [listGoal, setListGoal] = useState([]);
@@ -29,31 +30,43 @@ export default function App() {
     setListGoal(newList);
   };
 
-  const _handleCloseModel = (isOpen) =>{
+  const _handleCloseModel = (isOpen) => {
     setIsOpen(isOpen);
-  }
+  };
 
   return (
-    <View style={styles.screen}>
-      <GoalInput onAddGoal={addGoalHandler} visible={isOpen} onCloseModal={_handleCloseModel} />
-      <Button title="ADD NEW GOAL" onPress={() => _handleCloseModel(true)}></Button>
-      <FlatList
-        keyExtractor={(item, idex) => item.key}
-        data={listGoal}
-        renderItem={(itemData) => (
-          <GoalItem
-            id={itemData.item.key}
-            onDelete={_handleDeleteItem}
-            itemData={itemData}
-          />
-        )}
-      />
-    </View>
+    <>
+      <StatusBar style="light" />
+      <View style={styles.screen}>
+        <GoalInput
+          onAddGoal={addGoalHandler}
+          visible={isOpen}
+          onCloseModal={_handleCloseModel}
+        />
+        <Button
+          title="ADD NEW GOAL"
+          onPress={() => _handleCloseModel(true)}
+        ></Button>
+        <FlatList
+          keyExtractor={(item, idex) => item.key}
+          data={listGoal}
+          renderItem={(itemData) => (
+            <GoalItem
+              id={itemData.item.key}
+              onDelete={_handleDeleteItem}
+              itemData={itemData}
+            />
+          )}
+        />
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
     padding: 50,
+    flex: 1,
+    backgroundColor: "#1e085a",
   },
 });
